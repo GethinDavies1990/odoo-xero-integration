@@ -1,0 +1,170 @@
+<odoo>
+  <data>
+      <record id="contact_view_extend" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='vat']" position="after">
+                        <field name="xero_user_type"/>
+            </xpath>
+        </field>
+     </record>
+
+
+    <record model="ir.ui.view" id="xero_credentials_list">
+      <field name="name">Xero Credentials List</field>
+      <field name="model">xero.credentials</field>
+      <field name="arch" type="xml">
+            <form edit="false" create="false">
+                <sheet>
+
+                      <group string="Xero Credentials">
+                            <field name="redirect_url" style="width:50%" placeholder="http://localhost:8069/xero_success"/>
+                            <field name="client_id" style="width:50%" />
+                            <field name="client_secret" style="width:50%" password="True" />
+                      </group>
+                            <button name="connect" type="object" string="Connect" class="oe_highlight" target="_blank"/>
+                </sheet>
+            </form>
+      </field>
+    </record>
+
+   <record model="ir.ui.view" id="xero_import_stats_list">
+      <field name="name">Xero Import Stats List</field>
+      <field name="model">xero.import.stats</field>
+      <field name="arch" type="xml">
+            <tree string="Import History" edit="false" create="false">
+                <field name="contact" string="New Contacts"/>
+                <field name="product" string="New Products"/>
+                <field name="invoice" string="New Invoices"/>
+                <field name="purchase_order" string="Purchase Orders"/>
+                <field name="create_date" string="Sync Time"/>
+                <field name="connector" widget="many2one"/>
+            </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="xero_export_stats_list">
+      <field name="name">Xero Export Stats List</field>
+      <field name="model">xero.export.stats</field>
+      <field name="arch" type="xml">
+            <tree edit="false" create="false">
+                <field name="contact" string="New Contacts"/>
+                <field name="product" string="New Products"/>
+                <field name="create_date" string="Sync Time"/>
+                <field name="connector" widget="many2one"/>
+            </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="xero_connector_form">
+      <field name="name">Xero Connector Form</field>
+      <field name="model">xero.connector</field>
+      <field name="arch" type="xml">
+            <form edit="false" create="false">
+                <sheet>
+                       <group string="Xero Connector">
+                        <group>
+                              <h3>Contact</h3>
+                              <div>
+                                   <field name="import_contact"/>
+                                   <label for="import_contact" string="Import"/>
+                                   <field name="export_contact"/>
+                                   <label for="export_contact" string="Export"/>
+                             </div>
+                          </group>
+
+
+                        <group>
+                              <h3>Product</h3>
+                              <div>
+                                  <field name="import_product"/>
+                                  <label for="import_product" string="Import"/>
+                                  <field name="export_product"/>
+                                  <label for="export_product" string="Export"/>
+                              </div>
+                        </group>
+
+                         <group>
+                             <h3>Purchase Order</h3>
+                             <div>
+                                  <field name="import_purchase_order"/>
+                                  <label for="import_purchase_order" string="Import"/>
+                              </div>
+                          </group>
+
+                          <group>
+                              <h3>Sale Invoice</h3>
+                              <div>
+                                  <field name="import_invoice"/>
+                                  <label for="import_invoice" string="Import"/>
+                             </div>
+                        </group>
+
+                        <group>
+                            <h3>XR TenantID</h3>
+                               <div>
+                                    <field name="xr_tenant" widget="selection"/>
+                               </div>
+                            <field name="custom_from_datetime"/>
+                            <field name="custom_to_datetime"/>
+                        </group>
+                      </group>
+                      <button name="synchronize" type="object" string="Sync" class="oe_highlight"/>
+                    <br/>
+                    <br/>
+                    <button name="import_history_action" type="object" target="new" string="Import History"/>
+                    <button name="export_history_action" type="object" target="new" string="Export History"/>
+            </sheet>
+
+          </form>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="xero_credentials_action_window">
+      <field name="name">Xero Credentials</field>
+      <field name="res_model">xero.credentials</field>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="xero_connector_action_window">
+      <field name="name">Xero Connector</field>
+      <field name="res_model">xero.connector</field>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="xero_import_stats_action_window">
+      <field name="name">Xero Import History</field>
+      <field name="res_model">xero.import.stats</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="xero_export_stats_action_window">
+      <field name="name">Xero Export History</field>
+      <field name="res_model">xero.export.stats</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+    <!-- server action to the one above -->
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Xero" id="xero_credentials_menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Credentials" id="xero_credentials_menu_1" parent="xero_credentials_menu_root" action="xero_credentials_action_window"/>
+    <menuitem name="Connector" id="xero_credentials_menu_2" parent="xero_credentials_menu_root" action="xero_connector_action_window"/>
+    <menuitem name="Import History" id="xero_credentials_menu_3" parent="xero_credentials_menu_root" action="xero_import_stats_action_window"/>
+    <menuitem name="Export History" id="xero_credentials_menu_4" parent="xero_credentials_menu_root" action="xero_export_stats_action_window"/>
+
+    <!-- actions -->
+</data>
+
+</odoo>

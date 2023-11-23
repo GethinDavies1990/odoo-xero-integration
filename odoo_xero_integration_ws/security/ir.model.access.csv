@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_xero_credentials,xero.credentials,model_xero_credentials,base.group_user,1,1,1,1
+access_xero_connector,xero.connector,model_xero_connector,base.group_user,1,1,1,1
+access_xero_import_stats,xero.import.stats,model_xero_import_stats,base.group_user,1,1,1,1
+access_xero_export_stats,xero.export.stats,model_xero_export_stats,base.group_user,1,1,1,1
+access_xero_tenants,xero.tenants,model_xero_tenants,base.group_user,1,1,1,1
